@@ -25,6 +25,20 @@ mongoose.connect(process.env.MONGO_URI,{
 app.get("/",(req,res)=>{
   res.send("Welcome");
 })
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.name);
+  },
+});
+
+const upload = multer({ storage: storage });
+app.post("/upload", upload.single("file"), (req, res) => {
+  res.status(200).json("File has been uploaded");
+});
+app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/posts", postRoute);
