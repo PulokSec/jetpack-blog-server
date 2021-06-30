@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGO_URI,{
   .then(console.log("Connected to mongodb"))
   .catch((err)=> console.log(err));
 app.get("/",(req,res)=>{
-  res.send("Welcome");
+  res.send("Welcome to JETPACK Blog");
 })
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -44,7 +44,8 @@ app.use("/users", userRoute);
 app.use("/posts", postRoute);
 app.use("/categories", categoryRoute);
 
-app.listen("5000",()=>{
+let port = process.env.PORT || 5000;
+app.listen(port,()=>{
   console.log("Backend Data server running")
 })
 
